@@ -4,11 +4,13 @@
   "description": "social network for developers",
   "main": "app.js",
   "scripts": {
+    "start": "nodemon ./build/app.js",
     "dev": "nodemon -r tsconfig-paths/register src/app.ts | ./node_modules/.bin/bunyan",
     "lint:check": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint --fix 'src/**/*.ts'",
     "prettier:check": "prettier --check 'src/**/*.{ts,json}'",
-    "prettier:fix": "prettier --write 'src/**/*.{ts,json}'"
+    "prettier:fix": "prettier --write 'src/**/*.{ts,json}'",
+    "build": "tsc --project tsconfig.json && tsc-alias -p tsconfig.json"
   },
   "keywords": [],
   "author": "ismaelbr87@gmail.com",
@@ -28,7 +30,8 @@
     "mongoose": "^7.4.1",
     "redis": "^4.6.7",
     "socket.io": "^4.7.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "typescript-transform-paths": "^3.4.6"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.8",
@@ -43,6 +46,7 @@
     "eslint-config-prettier": "^8.9.0",
     "prettier": "^3.0.0",
     "ts-node": "^10.9.1",
+    "tsc-alias": "^1.8.7",
     "tsconfig-paths": "^4.2.0"
   }
 }
