@@ -19,4 +19,12 @@ export class Helpers {
     }
     return Number(otp);
   }
+
+  static parseJson(prop: string): any {
+    try {
+      JSON.parse(prop);
+    } catch (error) {
+      return prop;
+    }
+  }
 }
