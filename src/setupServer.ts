@@ -121,6 +121,7 @@ export class ChattyServer {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private socketIOConnection(io: Server): void {
     log.info('SocketIO connection');
   }
