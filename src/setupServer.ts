@@ -69,19 +69,14 @@ export class ChattyServer {
 
   private globalErrorHandler(app: Application): void {
     app.all('*', (req: Request, res: Response) => {
-      res.status(HTTP_STATUS.NOT_FOUND).json({
-        status: 'error',
-        message: `Can't find ${req.originalUrl} on this server!`
-      });
+      res.status(HTTP_STATUS.NOT_FOUND).json({ message: `${req.originalUrl} not found` });
     });
 
     app.use((error: IErrorResponse, _req: Request, res: Response, next: NextFunction) => {
       log.error(error);
-
       if (error instanceof CustomError) {
         return res.status(error.statusCode).json(error.serializeErrors());
       }
-
       next();
     });
   }
@@ -126,6 +121,7 @@ export class ChattyServer {
     });
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   private socketIOConnection(io: Server): void {
     log.info('SocketIO connection');
   }
