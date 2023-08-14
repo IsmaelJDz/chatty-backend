@@ -8,12 +8,26 @@ import { loginSchema } from '@auth/schemes/signin';
 import { IAuthDocument } from '@auth/interfaces/auth.interface';
 import { BadRequestError } from '@global/helpers/error-handler';
 import { userService } from '@service/db/user.service';
-import { IUserDocument } from '@user/interfaces/user.interface';
+import { IResetPasswordParams, IUserDocument } from '@user/interfaces/user.interface';
+//import { forgotPasswordTemplate } from '@service/emails/templates/forgot-password/forgot-password-template';
+import { emailQueue } from '@service/queues/email.queue';
+//import { mailTransport } from '@service/emails/mail.transport';
+import moment from 'moment';
+import publicIP from 'ip';
+import { resetPasswordTemplate } from '@service/emails/templates/reset-password/reset-password-template';
 
 export class SignIn {
   @joiValidation(loginSchema)
   public async read(req: Request, res: Response): Promise<void> {
     const { username, password } = req.body;
+
+    // TEST EMAIL
+
+    // await mailTransport.sendEmail(
+    //   'talia.buckridge47@ethereal.email',
+    //   'Testing development email',
+    //   'This is a test email to show theat development email sender works.'
+    // );
 
     const existingUser: IAuthDocument = await authService.getAuthUserByUsername(username);
 
@@ -39,6 +53,24 @@ export class SignIn {
       },
       config.JWT_TOKEN!
     );
+
+    //const resetLink = `${config.CLIENT_URL}/reset-password?token=${userJwt}`;
+
+    const templateParams: IResetPasswordParams = {
+      username: existingUser.username!,
+      email: existingUser.email!,
+      ipaddress: publicIP.address(),
+      date: moment().format('DD/MM/YYYY HH:mm')
+    };
+
+    const template: string =
+      resetPasswordTemplate.passwordResetConfirmationTemplate(templateParams);
+
+    emailQueue.addEmailJob('forgotPasswordEmail', {
+      template,
+      receiverEmail: 'talia.buckridge47@ethereal.email',
+      subject: 'Password reset confirmation'
+    });
 
     req.session = { jwt: userJwt };
 
