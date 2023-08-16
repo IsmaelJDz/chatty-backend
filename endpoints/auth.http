@@ -37,3 +37,25 @@ GET {{baseUrl}}/{{urlPath}}/currentuser
 Content-Type: application/json
 Accept: application/json
 withCredentias: true
+
+###
+POST {{baseUrl}}/{{urlPath}}/forgot-password
+Content-Type: application/json
+Accept: application/json
+withCredentias: true
+
+{
+  "email": "ismaebr87@gmail.com"
+}
+
+###
+POST {{baseUrl}}/{{urlPath}}/reset-password/e1c70f0d3e885e4931ee0fb5ad807515afd2f26a
+Content-Type: application/json
+Accept: application/json
+withCredentias: true
+
+{
+  "password": "testPass",
+  "confirmPassword": "testPass"
+}
+
