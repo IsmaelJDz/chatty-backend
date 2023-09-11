@@ -39,6 +39,7 @@ export class UserCache extends BaseCache {
       bgImageVersion,
       social
     } = createdUser;
+
     const dataToSave = {
       _id: `${_id}`,
       uId: `${uId}`,
