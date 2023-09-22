@@ -1,3 +1,3 @@
-## systemctl restart redis-server
+## systemctl start redis-server
 
 # redis-commander
